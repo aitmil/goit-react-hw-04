@@ -4,3 +4,8 @@
   padding: 2rem;
   text-align: center;
 }
+
+.container {
+  padding: 36px;
+  margin: 0 auto;
+}
