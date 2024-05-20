@@ -15,6 +15,9 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImageUrl, setImageUrl] = useState("");
+  const [selectedImageAlt, setImageAlt] = useState("");
 
   useEffect(() => {
     async function fetchImages() {
@@ -29,29 +32,41 @@ export default function App() {
         setIsLoading(false);
       }
     }
-    fetchImages();
+    searchQuery !== 0 && fetchImages();
   }, [searchQuery, page]);
 
   const handleSearch = async (query) => {
     setSearchQuery(query);
     setPage(1);
     setImages([]);
+    setIsError(false);
   };
 
-  const handleLoadMore = async () => {
-    setPage(page + 1);
+  const handleLoadMore = async () => setPage(page + 1);
+
+  const handleOpenModal = (imageUrl, imageAlt) => {
+    setImageUrl(imageUrl);
+    setImageAlt(imageAlt);
+    setModalIsOpen(true);
   };
+
+  const handleCloseModal = () => setModalIsOpen(false);
 
   return (
     <div className={css.container}>
       <SearchBar onSubmit={handleSearch} />
-      <ImageGallery images={images} />
-      <Loader isLoading={isLoading} />
+      {isLoading && <Loader />}
       {isError && <ErrorMessage />}
+      <ImageGallery images={images} onImageClick={handleOpenModal} />
       {images.length > 0 && !isLoading && (
         <LoadMoreBtn onLoadMore={handleLoadMore} />
       )}
-      <ImageModal />
+      <ImageModal
+        openModal={handleOpenModal}
+        closeModal={handleCloseModal}
+        imageUrl={selectedImageUrl}
+        imageAlt={selectedImageAlt}
+      />
     </div>
   );
 }
