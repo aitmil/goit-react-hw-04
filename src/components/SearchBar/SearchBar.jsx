@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import toast, { Toaster } from "react-hot-toast";
+import { MdSearch } from "react-icons/md";
 import css from "./SearchBar.module.css";
 
 export default function SearchBar({ onSubmit }) {
@@ -10,9 +11,12 @@ export default function SearchBar({ onSubmit }) {
     actions.resetForm();
   };
   return (
-    <header className="css.header">
+    <header className={css.header}>
       <Formik initialValues={{ search: "" }} onSubmit={handleSubmit}>
         <Form className={css.form}>
+          <button type="submit" className={css.btn}>
+            <MdSearch size={24} />
+          </button>
           <Field
             className={css.input}
             autoComplete="off"
@@ -20,9 +24,6 @@ export default function SearchBar({ onSubmit }) {
             placeholder="Search images and photos"
             name="search"
           />
-          <button type="submit" className={css.btn}>
-            Search
-          </button>
         </Form>
       </Formik>
       <Toaster />

@@ -34,14 +34,15 @@ export default function App() {
         setIsLoading(false);
       }
     }
-    searchQuery !== 0 && fetchImages();
+    if (searchQuery) {
+      fetchImages();
+    }
   }, [searchQuery, page]);
 
   const handleSearch = async (query) => {
     setSearchQuery(query);
     setPage(1);
     setImages([]);
-    setIsError(false);
   };
 
   const handleLoadMore = async () => setPage(page + 1);
@@ -59,7 +60,9 @@ export default function App() {
       <SearchBar onSubmit={handleSearch} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
-      <ImageGallery images={images} onImageClick={handleOpenModal} />
+      {images.length > 0 && (
+        <ImageGallery images={images} onImageClick={handleOpenModal} />
+      )}
       {showBtn && images.length > 0 && !isLoading && (
         <LoadMoreBtn onLoadMore={handleLoadMore} />
       )}

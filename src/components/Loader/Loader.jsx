@@ -6,13 +6,12 @@ export default function Loader() {
     <>
       <ThreeDots
         visible={true}
-        height="80"
-        width="80"
-        color="#4fa94d"
+        height="100"
+        width="100"
+        color="#7a1f50"
         radius="9"
         ariaLabel="three-dots-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
+        wrapperClass={css.loader}
       />
     </>
   );
