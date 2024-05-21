@@ -13,5 +13,5 @@ export const getImages = async (query, currentPage) => {
       orientation: "landscape",
     },
   });
-  return response.data.results;
+  return response.data;
 };

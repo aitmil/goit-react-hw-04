@@ -3,7 +3,8 @@ import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
 export default function SearchBar({ onSubmit }) {
-  const notify = () => toast.error("Please fill in the field!");
+  const notify = () =>
+    toast.error("The search field is empty. Please try again!");
   const handleSubmit = (values, actions) => {
     values.search === "" ? notify() : onSubmit(values.search);
     actions.resetForm();

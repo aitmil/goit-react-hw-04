@@ -13,6 +13,7 @@ export default function App() {
   const [images, setImages] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [showBtn, setShowBtn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -24,8 +25,9 @@ export default function App() {
       try {
         setIsError(false);
         setIsLoading(true);
-        const data = await getImages(searchQuery, page);
-        setImages((prevState) => [...prevState, ...data]);
+        const { results, total_pages } = await getImages(searchQuery, page);
+        setImages((prevState) => [...prevState, ...results]);
+        setShowBtn(total_pages && total_pages !== page);
       } catch {
         setIsError(true);
       } finally {
@@ -46,7 +48,7 @@ export default function App() {
 
   const handleOpenModal = (imageUrl, imageAlt) => {
     setImageUrl(imageUrl);
-    setImageAlt(imageAlt);
+    setImageAlt(() => (imageAlt !== null ? imageAlt : `${searchQuery} image`));
     setModalIsOpen(true);
   };
 
@@ -58,12 +60,10 @@ export default function App() {
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
       <ImageGallery images={images} onImageClick={handleOpenModal} />
-      {images.length > 0 && !isLoading && (
-        <LoadMoreBtn onLoadMore={handleLoadMore} />
-      )}
+      {showBtn && <LoadMoreBtn onLoadMore={handleLoadMore} />}
       <ImageModal
-        openModal={handleOpenModal}
-        closeModal={handleCloseModal}
+        isOpen={modalIsOpen}
+        isClose={handleCloseModal}
         imageUrl={selectedImageUrl}
         imageAlt={selectedImageAlt}
       />
