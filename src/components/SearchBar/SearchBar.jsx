@@ -4,8 +4,7 @@ import { MdSearch } from "react-icons/md";
 import css from "./SearchBar.module.css";
 
 export default function SearchBar({ onSubmit }) {
-  const notify = () =>
-    toast.error("The search field is empty. Please try again!");
+  const notify = () => toast("The search field is empty. Please try again!");
   const handleSubmit = (values, actions) => {
     values.search === "" ? notify() : onSubmit(values.search);
     actions.resetForm();
@@ -26,7 +25,16 @@ export default function SearchBar({ onSubmit }) {
           />
         </Form>
       </Formik>
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          style: {
+            padding: "16px",
+            color: "red",
+            marginTop: "60px",
+            textAlign: "center",
+          },
+        }}
+      />
     </header>
   );
 }
