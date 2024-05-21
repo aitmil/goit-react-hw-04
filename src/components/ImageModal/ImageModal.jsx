@@ -10,19 +10,33 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
   },
+  overlay: {
+    backgroundColor: "rgba(15, 15, 16, 0.6)",
+  },
 };
 
 Modal.setAppElement("#root");
 
-export default function ImageModal({ isOpen, isClose, imageUrl, imageAlt }) {
+export default function ImageModal({
+  isOpen,
+  isClose,
+  imageUrl,
+  imageAlt,
+  imageAuthor,
+}) {
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={isClose}
       style={customStyles}
       contentLabel="Image Modal"
+      closeTimeoutMS={400}
     >
-      <img src={imageUrl} alt={imageAlt} />
+      <img className={css.img} src={imageUrl} alt={imageAlt} />
+      <div className={css.box}>
+        <p className={css.text}>{imageAlt}</p>
+        <p className={css.text}>Author: {imageAuthor}</p>
+      </div>
     </Modal>
   );
 }

@@ -19,6 +19,7 @@ export default function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedImageUrl, setImageUrl] = useState("");
   const [selectedImageAlt, setImageAlt] = useState("");
+  const [selectedImageAuthor, setImageAuthor] = useState("");
 
   useEffect(() => {
     async function fetchImages() {
@@ -47,9 +48,10 @@ export default function App() {
 
   const handleLoadMore = async () => setPage(page + 1);
 
-  const handleOpenModal = (imageUrl, imageAlt) => {
+  const handleOpenModal = (imageUrl, imageAlt, imageAuthor) => {
     setImageUrl(imageUrl);
     setImageAlt(() => (imageAlt !== null ? imageAlt : `${searchQuery} image`));
+    setImageAuthor(() => (imageAuthor !== null ? imageAuthor : "Unknown"));
     setModalIsOpen(true);
   };
 
@@ -71,6 +73,7 @@ export default function App() {
         isClose={handleCloseModal}
         imageUrl={selectedImageUrl}
         imageAlt={selectedImageAlt}
+        imageAuthor={selectedImageAuthor}
       />
     </div>
   );
