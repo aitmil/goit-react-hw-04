@@ -23,12 +23,12 @@ export default function App() {
 
   useEffect(() => {
     async function fetchImages() {
+      setIsError(false);
+      setIsLoading(true);
       try {
-        setIsError(false);
-        setIsLoading(true);
         const { results, total_pages } = await getImages(searchQuery, page);
         setImages((prevState) => [...prevState, ...results]);
-        setShowBtn(total_pages && total_pages !== page);
+        setShowBtn(total_pages !== page);
       } catch {
         setIsError(true);
       } finally {
@@ -60,11 +60,11 @@ export default function App() {
   return (
     <div className={css.container}>
       <SearchBar onSubmit={handleSearch} />
-      {isLoading && <Loader />}
       {isError && <ErrorMessage />}
       {images.length > 0 && (
         <ImageGallery images={images} onImageClick={handleOpenModal} />
       )}
+      {isLoading && <Loader />}
       {showBtn && images.length > 0 && !isLoading && (
         <LoadMoreBtn onLoadMore={handleLoadMore} />
       )}
